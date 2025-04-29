@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams
+} from 'react-router-dom';
+import './App.css'; // Assure-toi que ce fichier CSS est dans le même dossier
 
-
+// Hook personnalisé pour la récupération de données
 const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,26 +38,30 @@ const useFetch = (url) => {
   return { data, loading, error };
 };
 
-//TEST
+// Composant pour la liste des pays
 const CountryList = () => {
   const { data, loading, error } = useFetch('https://restcountries.com/v3.1/all');
 
   if (loading) {
-    return <p>Chargement des pays...</p>;
+    return <p className="container">Chargement des pays...</p>;
   }
 
   if (error) {
-    return <p>Erreur lors du chargement des pays : {error.message}</p>;
+    return <p className="container">Erreur lors du chargement des pays : {error.message}</p>;
   }
 
   return (
-    <div>
+    <div className="container">
       <h2>Liste des Pays</h2>
       <ul>
         {data && data.map((country) => (
           <li key={country.cca3}>
             <Link to={`/country/${country.cca3}`}>
-              <img src={country.flags.svg} alt={`Drapeau de ${country.name.common}`} style={{ width: '30px', marginRight: '10px', verticalAlign: 'middle' }} />
+              <img
+                src={country.flags.svg}
+                alt={`Drapeau de ${country.name.common}`}
+                style={{ width: '30px', marginRight: '10px' }}
+              />
               {country.name.common}
             </Link>
           </li>
@@ -60,29 +71,33 @@ const CountryList = () => {
   );
 };
 
-
+// Composant pour les détails d’un pays
 const CountryDetail = () => {
   const { countryCode } = useParams();
   const { data, loading, error } = useFetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
 
   if (loading) {
-    return <p>Chargement des détails du pays...</p>;
+    return <p className="container">Chargement des détails du pays...</p>;
   }
 
   if (error) {
-    return <p>Erreur lors du chargement des détails du pays : {error.message}</p>;
+    return <p className="container">Erreur lors du chargement des détails du pays : {error.message}</p>;
   }
 
   if (!data || data.length === 0) {
-    return <p>Pays non trouvé.</p>;
+    return <p className="container">Pays non trouvé.</p>;
   }
 
   const country = data[0];
 
   return (
-    <div>
+    <div className="container">
       <h2>
-        <img src={country.flags.svg} alt={`Drapeau de ${country.name.common}`} style={{ width: '50px', marginRight: '10px', verticalAlign: 'middle' }} />
+        <img
+          src={country.flags.svg}
+          alt={`Drapeau de ${country.name.common}`}
+          style={{ width: '50px', marginRight: '10px' }}
+        />
         Détails de {country.name.common}
       </h2>
       <p>Nom officiel: {country.name.official}</p>
@@ -102,7 +117,7 @@ const CountryDetail = () => {
           </ul>
         </div>
       )}
-      <Link to="/">Retour à la liste des pays</Link>
+      <Link className="back-link" to="/">← Retour à la liste des pays</Link>
     </div>
   );
 };
@@ -111,20 +126,18 @@ const CountryDetail = () => {
 const App = () => {
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Accueil</Link>
-            </li>
-          </ul>
-        </nav>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Accueil</Link>
+          </li>
+        </ul>
+      </nav>
 
-        <Routes>
-          <Route path="/" element={<CountryList />} />
-          <Route path="/country/:countryCode" element={<CountryDetail />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<CountryList />} />
+        <Route path="/country/:countryCode" element={<CountryDetail />} />
+      </Routes>
     </Router>
   );
 };
