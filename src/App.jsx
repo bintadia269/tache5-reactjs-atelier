@@ -43,7 +43,7 @@ const CountryList = () => {
   const { data, loading, error } = useFetch('https://restcountries.com/v3.1/all');
 
   if (loading) {
-    return <p className="container">Chargement des pays... ujzindsk,hudsincgfydhuciosklçioskplwx;husjin</p>;
+    return <p className="container">Chargement des pays...</p>;
   }
 
   if (error) {
