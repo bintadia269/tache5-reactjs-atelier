@@ -6,7 +6,7 @@ import {
   Link,
   useParams
 } from 'react-router-dom';
-import './App.css'; // Assure-toi que ce fichier CSS est dans le même dossier
+import './App.css';
 
 // Hook personnalisé pour la récupération de données
 const useFetch = (url) => {
@@ -43,7 +43,7 @@ const CountryList = () => {
   const { data, loading, error } = useFetch('https://restcountries.com/v3.1/all');
 
   if (loading) {
-    return <p className="container">Chargement des pays...</p>;
+    return <p className="container">Chargement des pays... ujzindsk,hudsincgfydhuciosklçioskplwx;husjin</p>;
   }
 
   if (error) {
